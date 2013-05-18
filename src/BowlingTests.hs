@@ -29,6 +29,9 @@ tests =
         , testCase "incomplete strike" (score [10] @?= 10)
         , testCase "semicomplete strike" (score [10, 3] @?= 16)
         ]
+    , testGroup "Limit to 10 frames"
+        [ testCase "chop at frame 10" (score [1,1,1,2,1,3,1,4,1,5,2,1,2,2,2,3,2,4,2,5,3,1,3,2] @?= 45)
+        ]
     ]
 
 data DullFrame = DullFrame Int Int
@@ -52,20 +55,23 @@ instance Arbitrary DullPin where
 
 
 prop_noTens :: [DullFrame] -> Bool
-prop_noTens dfs = score bowls == sum bowls
+prop_noTens dfs = score bowls == sum bowls'
   where
     bowls = dullBowls dfs
+    bowls' = dullBowls $ take 10 dfs
 
 prop_spares :: [DullFrame] -> DullPin -> DullFrame -> Bool
-prop_spares dfs dp dfn = score bowls == sum (dullBowls dfs) + 10 + a + a + b
+prop_spares dfs dp dfn = score bowls == sum (dullBowls dfs') + 10 + a + a + b
   where
-    bowls = dullBowls dfs ++ [c, 10 - c, a, b]
+    dfs' = take 8 dfs
+    bowls = dullBowls dfs' ++ [c, 10 - c, a, b]
     DullPin c = dp
     DullFrame a b = dfn
 
 prop_strikes :: [DullFrame] -> DullFrame -> Bool
-prop_strikes dfs dfn = score bowls == sum (dullBowls dfs) + 10 + a + b + a + b
+prop_strikes dfs dfn = score bowls == sum (dullBowls dfs') + 10 + a + b + a + b
   where
-    bowls = dullBowls dfs ++ [10, a, b]
+    dfs' = take 8 dfs
+    bowls = dullBowls dfs' ++ [10, a, b]
     DullFrame a b = dfn
 
