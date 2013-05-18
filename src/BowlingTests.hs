@@ -19,6 +19,10 @@ tests =
         [ testCase "stike" (score [7,3,8,1] @?= 27)
         , testProperty "after spares" prop_spares
         ]
+    , testGroup "Strikes"
+        [ testCase "stike" (score [10,8,1] @?= 28)
+        , testProperty "after strikes" prop_strikes
+        ]
     ]
 
 data DullFrame = DullFrame Int Int
@@ -52,3 +56,10 @@ prop_spares dfs dp dfn = score bowls == sum (dullBowls dfs) + 10 + a + a + b
     bowls = dullBowls dfs ++ [c, 10 - c, a, b]
     DullPin c = dp
     DullFrame a b = dfn
+
+prop_strikes :: [DullFrame] -> DullFrame -> Bool
+prop_strikes dfs dfn = score bowls == sum (dullBowls dfs) + 10 + a + b + a + b
+  where
+    bowls = dullBowls dfs ++ [10, a, b]
+    DullFrame a b = dfn
+
