@@ -1,0 +1,22 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/markl/Projects/kata"
+		}
+	],
+    "settings":
+    {
+        "save_on_focus_lost": true
+    },
+    "build_systems":
+    [
+        {
+            "name": "cabal",
+            "cmd": ["cabal", "build"],
+            "working_dir": "$project_path",
+            "file_regex": "^([^: \n]+):([0-9]+):([0-9]+)"
+        }
+    ]
+}
+

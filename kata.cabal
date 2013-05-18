@@ -1,0 +1,23 @@
+Name:            kata
+Version:         0.1.0.0
+Author:          Mark Lentczner
+Maintainer:      markl@glyphic.com
+Build-type:      Simple
+Cabal-version:   >=1.8
+
+
+Executable bowling-test
+  Main-is: TestMain.hs
+  hs-source-dirs: src
+
+  Build-depends:
+    base,
+    HUnit,
+    QuickCheck >= 2,
+    test-framework,
+    test-framework-hunit,
+    test-framework-quickcheck2
+
+
+  ghc-options: -Wall -fwarn-tabs
+

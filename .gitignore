@@ -1,0 +1,6 @@
+dist
+Setup.lhs
+SourceGraph
+*.lkshs
+*.swp
+cabal-dev
