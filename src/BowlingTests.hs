@@ -23,6 +23,12 @@ tests =
         [ testCase "stike" (score [10,8,1] @?= 28)
         , testProperty "after strikes" prop_strikes
         ]
+    , testGroup "Incomplete"
+        [ testCase "incomplete frame" (score [1, 2, 3] @?= 6)
+        , testCase "incomplete spare" (score [7, 3] @?= 10)
+        , testCase "incomplete strike" (score [10] @?= 10)
+        , testCase "semicomplete strike" (score [10, 3] @?= 16)
+        ]
     ]
 
 data DullFrame = DullFrame Int Int
