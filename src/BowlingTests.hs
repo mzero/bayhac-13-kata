@@ -15,10 +15,14 @@ tests =
         , testCase "some" (score [1,2,3,4] @?= 10)
         , testProperty "gutters" prop_noTens
         ]
+    , testGroup "Spares"
+        [ testCase "stike" (score [7,3,8,1] @?= 27)
+        , testProperty "after spares" prop_spares
+        ]
     ]
 
 data DullFrame = DullFrame Int Int
-    deriving (Show)
+    deriving (Eq, Show)
 instance Arbitrary DullFrame where
     arbitrary = do
         n <- choose (0,9)
@@ -27,8 +31,24 @@ instance Arbitrary DullFrame where
     shrink (DullFrame a b) =
         [ DullFrame a' b' | a' <- [0..a], b' <- [0..b], a' + b' /= a + b ]
 
-prop_noTens :: [DullFrame] -> Bool
-prop_noTens dfs = score frameBowls == sum frameBowls
-  where
-    frameBowls = concatMap (\(DullFrame a b) -> [a,b]) dfs
+dullBowls :: [DullFrame] -> [Int]
+dullBowls = concatMap $ \(DullFrame a b) -> [a,b]
 
+newtype DullPin = DullPin Int
+    deriving (Eq, Show)
+instance Arbitrary DullPin where
+    arbitrary = DullPin `fmap` choose (0,9)
+    shrink (DullPin a) = DullPin `fmap` shrinkIntegral a
+
+
+prop_noTens :: [DullFrame] -> Bool
+prop_noTens dfs = score bowls == sum bowls
+  where
+    bowls = dullBowls dfs
+
+prop_spares :: [DullFrame] -> DullPin -> DullFrame -> Bool
+prop_spares dfs dp dfn = score bowls == sum (dullBowls dfs) + 10 + a + a + b
+  where
+    bowls = dullBowls dfs ++ [c, 10 - c, a, b]
+    DullPin c = dp
+    DullFrame a b = dfn
