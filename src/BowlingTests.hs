@@ -36,8 +36,31 @@ tests =
         [ testCase "ex1" (score2 [5,3] @?= [8])
         , testCase "ex2" (score2 [5,3,6,4,4,2] @?= [8,22,28])
         , testCase "ex3" (score2 [5,3,10,4,2] @?= [8,24,30])
+
+        , testCase "d1" (score2 [9,0,9,1,8,0,7,0,9,0,10,6,3] @?= [9,27,35,42,51,70,79])
+        , testCase "d2" (score2 [0,1,7,1,9,0,9,1,8,2,8,2,6,4] @?= [1,9,18,36,54,70])
+        , testCase "d3" (score2 [10,9,0,3,6,6,4,1,6,7,3] @?= [19,28,37,48,55])
+        , testCase "d4" (score2 [1,5,8,2,3,6,7,0,1,4,8,1] @?= [6,19,28,35,40,49])
+        , testCase "d5" (score2 [8,1,0,0,7,0,9,0,0,9,0,6] @?= [9,9,16,25,34,40])
+
         , testCase "ex4" (score2 [6,1,9,0,8,2,5,5,8,0,6,2,9,1,7,2,8,2,9,1]
                                     @?= [7,16,31,49,57,65,82,91,110])
+        , testCase "ex4" (score2 [6,1,9,0,8,2,5,5,8,0,6,2,9,1,7,2,8,2,9,1,7]
+                                    @?= [7,16,31,49,57,65,82,91,110,127])
+        ]
+
+    , testGroup "Frame display"
+        [ testCase "d0" (frameDisplay2 [] @?= "")
+        , testCase "d1" (frameDisplay2 [5] @?= "5")
+        , testCase "d2" (frameDisplay2 [5,3] @?= "53")
+        , testCase "d3" (frameDisplay2 [5,0] @?= "5-")
+        , testCase "d4" (frameDisplay2 [5,5] @?= "5/")
+        , testCase "d5" (frameDisplay2 [10] @?= "X ")
+        , testCase "d6" (frameDisplay2 [0,7] @?= "-7")
+        , testCase "d7" (frameDisplay2 [0,0] @?= "--")
+        , testCase "d8" (frameDisplay2 [1,2,10,3,4] @?= "12X 34")
+        , testCase "d9" (frameDisplay2 [1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,1,2] @?= "1-2-3-4-5-6-7-8-9-X12")
+        , testCase "d10" (frameDisplay2 [1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,10,10] @?= "1-2-3-4-5-6-7-8-9-XXX")
         ]
     ]
 

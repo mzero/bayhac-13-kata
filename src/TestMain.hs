@@ -2,7 +2,7 @@ module Main where
 
 import Test.Framework (defaultMain)
 
-import BowlingTests
+import qualified BowlingTests
 
 main :: IO ()
-main = defaultMain tests
+main = defaultMain BowlingTests.tests

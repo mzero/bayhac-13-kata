@@ -3,6 +3,7 @@ module Bowling (
     scoreSheet,
 
     score2,
+    frameDisplay2,
     ) where
 
 import Control.Applicative ((<$>))
@@ -61,14 +62,30 @@ frameScores = mapMaybe scoreOne . tails
     scoreOne (Strike : fs)   = (10 +) <$> next 2 fs
     scoreOne _               = Nothing
 
+    next :: Int -> [Frame] -> Maybe Int
     next n = next' n . pins
     next' 0 _ = Just 0
-    next' n [] = Nothing
+    next' _ [] = Nothing
     next' n (p:ps) = (p +) <$> next' (n - 1) ps
 
+frameDisplay :: [Frame] -> String
+frameDisplay = concat . zipWith fd [(1::Int)..]
+  where
+    fd _ (Half a) = pd a
+    fd _ (Frame a b) = pd a ++ pd b
+    fd _ (Spare a) = pd a ++ "/"
+    fd n (Strike) | n < 10 = "X "
+                  | otherwise = "X"
+    fd _ (Extra a) = pd a
+
+    pd 0 = "-"
+    pd n = show n
 
 score2 :: [Int] -> [Int]
 score2 = cummulativeSum . frameScores . frames
+
+frameDisplay2 :: [Int] -> String
+frameDisplay2 = frameDisplay . frames
 
 cummulativeSum :: (Num a) => [a] -> [a]
 cummulativeSum = drop 1 . map sum . inits

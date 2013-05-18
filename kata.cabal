@@ -6,6 +6,26 @@ Build-type:      Simple
 Cabal-version:   >=1.8
 
 
+Executable bowling-server
+  Main-is: WebMain.hs
+  hs-source-dirs: src
+
+  Build-depends:
+    base,
+    HUnit,
+    QuickCheck >= 2,
+    conduit,
+    http-types,
+    network,
+    text,
+    transformers,
+    wai,
+    wai-middleware-route,
+    warp
+
+
+  ghc-options: -Wall -fwarn-tabs
+
 Executable bowling-test
   Main-is: TestMain.hs
   hs-source-dirs: src
