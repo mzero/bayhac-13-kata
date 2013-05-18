@@ -32,6 +32,13 @@ tests =
     , testGroup "Limit to 10 frames"
         [ testCase "chop at frame 10" (score [1,1,1,2,1,3,1,4,1,5,2,1,2,2,2,3,2,4,2,5,3,1,3,2] @?= 45)
         ]
+    , testGroup "Frame scores"
+        [ testCase "ex1" (score2 [5,3] @?= [8])
+        , testCase "ex2" (score2 [5,3,6,4,4,2] @?= [8,22,28])
+        , testCase "ex3" (score2 [5,3,10,4,2] @?= [8,24,30])
+        , testCase "ex4" (score2 [6,1,9,0,8,2,5,5,8,0,6,2,9,1,7,2,8,2,9,1]
+                                    @?= [7,16,31,49,57,65,82,91,110])
+        ]
     ]
 
 data DullFrame = DullFrame Int Int
